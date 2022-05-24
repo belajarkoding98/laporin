@@ -35,6 +35,12 @@
                   <th>Waktu Laporan</th>
                   <th>Jenis Laporan</th>
                   <th>Action</th>
+                  <th>Nama</th>
+                  <th>Perkiraan Waktu Kejadian</th>
+                  <th>Kategori Laporan</th>
+                  <th>Judul Laporan</th>
+                  <th>Deskripsi Umum</th>
+                  <th>Lokasi</th>
                   <th>Status</th>
                   <th>Comment</th>
                 </tr>
@@ -54,6 +60,12 @@
                   <td>
                   <button class="btn btn-success btn-flat" data-toggle="modal" data-target="#myModalDetail'.$data->id_aduan.'"><i class="glyphicon glyphicon-list-alt"></i> Detail</button>
                   </td>
+                  <td>'.$data->nama_pelapor.'</td>
+                  <td>'.$data->waktu_kejadian.'</td>
+                  <td>'.$data->kategori_laporan.'</td>
+                  <td>'.$data->judul_laporan.'</td>
+                  <td>'.$data->deskripsi_umum.'</td>
+                  <td>'.$data->lokasi_aset.'</td>
                   <td style="text-align: center">';
                 if ($this->session->userdata('tipe') == null) {
                   if ($data->status == 1) {
@@ -237,14 +249,51 @@ foreach ($laporan as $data) {
       }
 
       $('#pelapor').DataTable({
-    'paging': true,
+        'paging': true,
     'lengthChange': true,
     'info': true,
     'autoWidth': true,
     "order": [
         [0, 'asc']
     ],
+    "columnDefs": [
+      {
+        targets: [5,6,7,8,9,10],
+        visible: false,
+        searchable: false,
+      },
+    ],
     dom: 'Bfrtip',
-    buttons: ['copyHtml5', 'excelHtml5', 'pdfHtml5', 'csvHtml5']
+    buttons: [
+      {
+                extend: 'copyHtml5',
+                title: 'Data Transaksi ',
+                exportOptions: {
+                  columns: [0, 2, 3, 5, 6, 7, 8, 9, 10],
+                },
+            },
+            {
+                extend: 'excelHtml5',
+                title: 'Data Transaksi ',
+                exportOptions: {
+                    columns: [0, 2, 3, 5, 6, 7, 8, 9, 10],
+                },
+            },
+            {
+                extend: 'pdfHtml5',
+                title: 'Data Transaksi ' ,
+                orientation: 'landscape',
+                pageSize: 'A4',
+                download: 'open',
+                exportOptions: {
+                    columns: [0, 2, 3, 5, 6, 7, 8, 9, 10],
+                },
+                customize: function(doc) {
+                    doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                    doc.styles.tableBodyEven.alignment = 'center';
+                    doc.styles.tableBodyOdd.alignment = 'center';
+                },
+            },
+          ],
 })
     </script>
