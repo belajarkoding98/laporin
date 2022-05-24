@@ -263,25 +263,25 @@ foreach ($laporan as $data) {
         searchable: false,
       },
     ],
-    dom: 'Bfrtip',
+    dom: 'Blfrtip',
     buttons: [
       {
                 extend: 'copyHtml5',
-                title: 'Data Transaksi ',
+                title: 'Data Laporan Ditangani',
                 exportOptions: {
                   columns: [0, 2, 3, 5, 6, 7, 8, 9, 10],
                 },
             },
             {
                 extend: 'excelHtml5',
-                title: 'Data Transaksi ',
+                title: 'Data Laporan Ditangani',
                 exportOptions: {
                     columns: [0, 2, 3, 5, 6, 7, 8, 9, 10],
                 },
             },
             {
                 extend: 'pdfHtml5',
-                title: 'Data Transaksi ' ,
+                title: 'Data Laporan Ditangani' ,
                 orientation: 'landscape',
                 pageSize: 'A4',
                 download: 'open',
