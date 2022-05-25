@@ -138,7 +138,7 @@
                                if(aduan == "Aspirasi"){
                                    $("#files").empty().append('<label class="col-sm-4 control-label">Bukti Aspirasi</label><div class="col-sm-8"><input type="file" name="bukti" onchange="Filevalidation1()" id="buktiUpload1" class="form-control" accept=",.doc, .docx, .pdf" required></div></div><div class="col-sm-4"></div><div class="col-sm-8"><b><p style="font-size:9pt;">*)File yang harus diupload berupa file word/ pdf</p></b><p style="font-size:9pt;" id="filesize1"></p></div>')
                             }else if(aduan == "Aduan"){
-                                    $("#files").empty().append('<label class="col-sm-4 control-label">Bukti Aduan</label><div class="col-sm-8"><input type="file" onchange="Filevalidation()" id="buktiUpload" name="bukti" class="form-control" accept="image/png, image/gif, image/jpeg" required></div></div><div class="col-sm-4"></div><div class="col-sm-8"><b><p style="font-size:9pt;">*)File yang harus diupload berupa gambar (.PNG/.JPG./JPEG)</p></b><p style="font-size:9pt;" id="filesize"></p></div><img id="preview" src="#" alt="your image" />')
+                                    $("#files").empty().append('<label class="col-sm-4 control-label">Bukti Aduan</label><div class="col-sm-8"><input type="file" onchange="Filevalidation(this)" id="buktiUpload" name="bukti" class="form-control" accept="image/png, image/gif, image/jpeg" required></div></div><div class="col-sm-4"></div><div class="col-sm-8"><b><p style="font-size:9pt;">*)File yang harus diupload berupa gambar (.PNG/.JPG./JPEG)</p></b><p style="font-size:9pt;" id="filesize"></p></div><label class="col-sm-4 control-label">Gambar Preview</label><div class="col-sm-8"><img id="preview" src="#" alt="your image" width="100%" /></div>')
                              }
                             })
                             
@@ -201,7 +201,7 @@
 
 
 
-      Filevalidation = () => {
+      Filevalidation = (input) => {
         const fi = document.getElementById('buktiUpload');
         // Check if any file is selected.
         if (fi.files.length > 0) {
@@ -241,13 +241,18 @@
                 
             }
         }
-
-        // show image
-        buktiUpload.onchange = evt => {
-        const [file] = buktiUpload.files
-        if (file) {
-            preview.src = URL.createObjectURL(file)
-        }
-        }
     }
+
+    Filevalidation = (input) => {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#preview')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 </script>
