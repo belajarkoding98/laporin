@@ -112,33 +112,22 @@ class Beranda extends CI_Controller {
 		}
 	}
 
-	public function sendEmail($id)
+	public function sendEmail($id, $email)
 	{
 		$this->load->library('email');
 		
 		$config = array(
 			'protocol' 	=> 'smtp',
-			'smtp_host'	=> 'ssl://smtp.googlemail.com', 
+			'smtp_host'	=> 'ponpesnurulhuda.org', 
 			'smtp_port'	=> 465,
-			'smtp_user'	=> 'peradenancomputer@gmail.com',
-			'smtp_pass'	=> '2021Januari2',
+			'smtp_user'	=> 'cs@ponpesnurulhuda.org',
+			'smtp_pass'	=> 'CustomerServiceNH2022',
 			'charset'   => 'utf-8',
 'mailtype'  => 'html',
 'crlf'   => "\r\n", 
 'newline'   => "\r\n", 
 			'wordwrap'	=> true
 		);
-		$config['smtp_timeout'] = 5;
-$config['wordwrap'] = TRUE;
-$config['wrapchars'] = 76;
-$config['mailtype'] = 'html';
-$config['charset'] = 'utf-8';
-$config['validate'] = FALSE;
-$config['priority'] = 3;
-$config['crlf'] = "\r\n";
-$config['newline'] = "\r\n";
-$config['bcc_batch_mode'] = FALSE;
-$config['bcc_batch_size'] = 200;
 		// $this->load->library('email', $config);
 		
 		$this->email->initialize($config);
@@ -146,8 +135,8 @@ $config['bcc_batch_size'] = 200;
 		$idtrim = rtrim($id, '=');
 		$link = base_url().'beranda/aktivasiAkun/'.$idtrim;
 		// $this->email->set_newline("\r\n");
-		$this->email->from('peradenancomputer@gmail.com', 'peradenancomputer@gmail.com');
-		$this->email->to('peradenancomputer@gmail.com');
+		$this->email->from('peradenancomputer@gmail.com', 'Sistem Aspirasi & Pengaduan Masyarakat');
+		$this->email->to($email);
 		$this->email->subject('Verifikasi Akun E-Lapor');
 		$this->email->message('Klik link berikut untuk aktivasi email anda '.$link);
 
@@ -172,8 +161,8 @@ $config['bcc_batch_size'] = 200;
 		}
 		else{
 			if ($this->m_lapor->register($this->upload->data())) {
-				$id = $this->db->select('id_pelapor')->order_by('id_pelapor',"desc")->limit(1)->get('pelapor')->row()->id_pelapor;
-				$this->sendEmail($id);
+				$id = $this->db->select('id_pelapor, email')->order_by('id_pelapor',"desc")->limit(1)->get('pelapor')->row();
+				$this->sendEmail($id->id_pelapor, $id->email);
 			// $this->session->set_flashdata('messageAlert', $this->messageAlert('success', '<b>Pendaftaran Berhasil</b> Silahkan Cek Alamat Email Anda.'));
 			// $this->session->set_flashdata('success', '<b>Pendaftaran Berhasil</b> Silahkan Cek Alamat Email Anda untuk verifikasi.');
 			$this->session->set_flashdata('success', '<b>Pendaftaran Berhasil</b> tunggu beberapa saat, akun anda segera kami aktifkan.');
