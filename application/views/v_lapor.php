@@ -202,20 +202,7 @@
 
 
       Filevalidation = (input) => {
-        const fi = document.getElementById('buktiUpload');
-        // Check if any file is selected.
-        if (fi.files.length > 0) {
-            for (const i = 0; i <= fi.files.length - 1; i++) {
- 
-                const fsize = fi.files.item(i).size;
-                const file = Math.round((fsize / 1024));
-                // The size of the file.
-               
-                    document.getElementById('filesize').innerHTML = '<b>Ukuran File : '
-                    + file + '</b> KB';
-                
-            }
-        }
+
 
         if(event.target.files.length > 0){
     var src = URL.createObjectURL(event.target.files[0]);
@@ -254,5 +241,20 @@
 
                 reader.readAsDataURL(input.files[0]);
             }
+
+            const fi = document.getElementById('buktiUpload');
+        // Check if any file is selected.
+        if (fi.files.length > 0) {
+            for (const i = 0; i <= fi.files.length - 1; i++) {
+ 
+                const fsize = fi.files.item(i).size;
+                const file = Math.round((fsize / 1024));
+                // The size of the file.
+               
+                    document.getElementById('filesize').innerHTML = '<b>Ukuran File : '
+                    + file + '</b> KB';
+                
+            }
+        }
         }
 </script>

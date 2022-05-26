@@ -48,5 +48,41 @@ class Auth extends CI_Controller {
 			$this->load->view('v_register', $data);
 		}
 	}
+
+	public function forgetpassword(){
+		$email = $this->input->post('emailMasuk');
+		$no_ktp = $this->input->post('regId');
+
+		// var_dump($email.$no_ktp);
+
+		$cek_data = $this->m_lapor->checkUser($email, $no_ktp);
+		if($cek_data){
+			$data = [
+				'title' => 'Password Baru | Sistem Aspirasi & Pengaduan Masyarakat',
+				'id' => $cek_data->id_pelapor
+			];
+			$this->load->view('v_newpassword', $data);
+		}else{
+			$this->session->set_flashdata('failed', 'Reset Password Gagal. Silahkan coba lagi.');
+			redirect('auth/reset_password');
+		}
+	}
+
+	public function newpassword(){
+		$pass = $this->input->post('regKonfirmasiPass');
+		$id = $this->input->post('id_pelapor');
+
+		// var_dump($email.$no_ktp);
+
+		$update_data = $this->m_lapor->updatePassword($id, ['password' => sha1($pass)]);
+		if($update_data){
+			$this->session->set_flashdata('success', 'Pembuatan Password Baru Berhasil. Silahkan Login');
+			redirect('auth/login');
+		}else{
+			$this->session->set_flashdata('failed', 'Pembuatan Password Baru Gagal. Silahkan coba lagi.');
+			redirect('auth/forgetpassword');
+		}
+		var_dump($update_data);
+	}
 }
 ?>

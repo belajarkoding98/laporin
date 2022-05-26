@@ -117,6 +117,11 @@ class M_lapor extends CI_Model {
 		return $this->db->select('id_aduan,ticket,waktu_laporan,jenis_klasifikasi,status_verif,status, alasan')->where('id_pelapor',$this->session->userdata('id_pelapor'))->get('aduan')->result();
 	}
 
+	public function checkUser($email, $no_ktp)
+	{
+		return $this->db->select('*')->where(['email' => $email, 'no_id' => $no_ktp])->get('pelapor')->row();
+	}
+
 	public function getHistory1()
 	{
 		return $this->db->select('*')->join('pelapor','pelapor.id_pelapor=aduan.id_pelapor')->where('status_verif', 0)->get('aduan')->result();
@@ -204,12 +209,19 @@ class M_lapor extends CI_Model {
 	{
 		$object = array('status' => 1 );
 		$this->db->where('id_pelapor', $id)->update('pelapor', $object);
-
+		
 		if ($this->db->affected_rows() > 0) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	public function updatePassword($id, $pass)
+	{
+		// $object = array('password' => $pass );
+		$this->db->where('id_pelapor', $id);
+		return $this->db->update('pelapor', $pass);
 	}
 
 }

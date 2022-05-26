@@ -68,6 +68,9 @@
                 <div class="col-md-2 mt-lg-4 pt-2 mt-5">
                 </div>
                 <div class="col-md-4 mt-lg-4 pt-2 mt-5">
+                <?php if ($this->session->flashdata('success') != null) : ?>
+            <div class="alert alert-success"><i class="fa fa-check-circle"></i> <?= $this->session->flashdata('success') ?></div>
+            <?php endif ?>
                 <?php if ($this->session->flashdata('failed') != null) : ?>
             <div class="alert alert-danger"><i class="fa fa-times-circle"></i> Login Gagal</div>
             <?php endif ?>

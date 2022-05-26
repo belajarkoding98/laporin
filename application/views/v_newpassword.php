@@ -67,39 +67,37 @@
                 </div>
                 <div class="col-md-2 mt-lg-4 pt-2 mt-5">
                 </div>
-                <?php if ($this->session->flashdata('success') != null) : ?>
-            <div class="alert alert-success"><i class="fa fa-check-circle"></i> <?= $this->session->flashdata('success') ?></div>
-            <?php endif ?>
                 <div class="col-md-4 mt-lg-4 pt-2 mt-5">
+                <?php if ($this->session->flashdata('success') != null) : ?>
+            <div class="alert alert-success"><i class="fa fa-times-circle"></i> <?= $this->session->flashdata('success') ?></div>
+            <?php endif ?>
                 <?php if ($this->session->flashdata('failed') != null) : ?>
             <div class="alert alert-danger"><i class="fa fa-times-circle"></i> <?= $this->session->flashdata('failed') ?></div>
             <?php endif ?>
-  <form method="post" action="<?php echo base_url('auth/forgetpassword'); ?>">
-  <h2>Reset Password</h2>
-                                <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-12 col-form-label">Email</label>
+  <form method="post" action="<?php echo base_url('auth/newpassword'); ?>">
+  <h2>Password Baru</h2>
+  <input type="hidden" class="form-control" name="id_pelapor" id="inputEmailMasuk" value="<?= $id ?>">
+  <div class="form-group row">
+                                    <label for="inputPassword3" class="col-sm-12 col-form-label">Password</label>
                                     <div class="col-sm-12">
-                                        <input type="email" class="form-control" name="emailMasuk" id="inputEmailMasuk" oninvalid="this.setCustomValidity('Masukan Email terlebih dahulu')" oninput="this.setCustomValidity('')"
-                                            placeholder="Email" required>
+                                        <input type="password" class="form-control" id="password" name="regPass" minlength="8"
+                                            placeholder="Masukan Password" oninvalid="password1()" oninput="this.setCustomValidity('')" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-12 col-form-label">No Identitas KTP</label>
+                                    <label for="inputPassword3" class="col-sm-12 col-form-label">Konfirmasi Password</label>
                                     <div class="col-sm-12">
-                                        <input type="number" class="form-control" id="inputId" name="regId" minlength="16"
-                                            placeholder="Masukan No Identitas" oninvalid="inputId()" oninput="this.setCustomValidity('')" required>
+                                        <input type="password" class="form-control" id="konfirmasiPassword" name="regKonfirmasiPass" minlength="8"
+                                            placeholder="Masukan Konfirmasi Password" onkeyup="matchPass()" oninvalid="password2()" oninput="this.setCustomValidity('')" required>
                                     </div>
                                 </div>
+                                <div id="errorPassword"></div>
                                  <div class="form-group row mt-3">
                                     <div class="col-sm-8">
-                                        <button type="submit" class="btn btn-primary btn-block btn-flak">Reset</button>
+                                        <button type="submit" class="btn btn-primary btn-block btn-flak">ubah</button>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-2 mt-2">
-    <div class="col">
-      <!-- Simple link -->
-      <a href="<?= base_url() ?>register">Belum punya akun? Daftar disini</a>
-    </div>
   </div>
                             </form>
                 </div>
@@ -182,8 +180,30 @@
 
     <script src="<?= base_url() ?>assets/beranda/js/app.js"></script>
     <script>
-        function password1(){
+            function matchPass(){
+        var pass1 = $('#password').val();
+        var pass2 = $('#konfirmasiPassword').val();
+        var errorPassword = $('#errorPassword');
+
+        if(pass1 != pass2){
+            errorPassword.css('color', 'red');
+            errorPassword.html('Password yang dimasukan tidak sama!');
+        }else{
+            errorPassword.css('color', 'green');
+            errorPassword.html('Password yang dimasukan sama!');
+
+        }
+    }
+
+    function password1(){
         if($('#password').val() <= 8){
+            this.setCustomValidity('Password kurang dari 8 karakter');
+        }else{
+            this.setCustomValidity('Masukan Password terlebih dahulu');
+        }
+    }
+    function password2(){
+        if($('#konfirmasiPassword').val() <= 8){
             this.setCustomValidity('Password kurang dari 8 karakter');
         }else{
             this.setCustomValidity('Masukan Password terlebih dahulu');

@@ -118,33 +118,72 @@ class Beranda extends CI_Controller {
 		
 		$config = array(
 			'protocol' 	=> 'smtp',
-			'smtp_host'	=> 'ponpesnurulhuda.org', 
-			'smtp_port'	=> 465,
-			'smtp_user'	=> 'cs@ponpesnurulhuda.org',
-			'smtp_pass'	=> 'CustomerServiceNH2022',
-			'charset'   => 'utf-8',
-'mailtype'  => 'html',
-'crlf'   => "\r\n", 
-'newline'   => "\r\n", 
-			'wordwrap'	=> true
+			'mailpath' 	=> '/usr/sbin/sendmail',
+			'smtp_host'	=> 'mail.vegahotel.co.id', 
+			'smtp_user'	=> 'no-reply@vegahotel.co.id',
+			'smtp_pass'	=> '{B^cxM05pV4Z',
+			'smtp_port'	=> 587,
+			'smtp_timeout'	=> 10,
+			'smtp_keepalive'	=> false,
+			'smtp_crypto'	=> 'tls',
+			'wordwrap'	=> true,
+			'wrapchars'	=> 76,
+			'mailtype'	=> 'html',
+			'charset'	=> 'utf-8',
+			'validate'	=> false,
+			'priority'	=> 3,
+			'crlf'	=> "\r\n",
+			'newline'	=> "\r\n",
+			'bcc_batch_mode'	=> false,
+			'bcc_batch_size'	=> 200,
+			'dsn'	=> false,
+
 		);
-		// $this->load->library('email', $config);
+		$this->load->library('email', $config);
+
+
 		
 		$this->email->initialize($config);
 		$id=base64_encode($id);
 		$idtrim = rtrim($id, '=');
 		$link = base_url().'beranda/aktivasiAkun/'.$idtrim;
-		// $this->email->set_newline("\r\n");
+		$this->email->clear();
+		$this->email->set_newline("\r\n");
 		$this->email->from('peradenancomputer@gmail.com', 'Sistem Aspirasi & Pengaduan Masyarakat');
 		$this->email->to($email);
 		$this->email->subject('Verifikasi Akun E-Lapor');
 		$this->email->message('Klik link berikut untuk aktivasi email anda '.$link);
 
+// 		$this->load->library('email');
+
+// $config['protocol']    = 'smtp';
+// $config['smtp_host']    = 'ssl://smtp.gmail.com';
+// $config['smtp_port']    = '465';
+// $config['smtp_timeout'] = '7';
+// $config['smtp_user']    = 'peradenancomputer@gmail.com';
+// $config['smtp_pass']    = '2021Januari2';
+// $config['charset']    = 'utf-8';
+// $config['newline']    = "\r\n";
+// $config['mailtype'] = 'text'; // or html
+// $config['validation'] = TRUE; // bool whether to validate email or not      
+
+// $this->email->initialize($config);
+
+// $this->email->from('peradenancomputer@gmail.com', 'sender_name');
+// $this->email->to($email); 
+// $this->email->subject('Email Test');
+// $this->email->message('Testing the email class.');  
+
+$this->email->send();
+
 		if ($this->email->send()) {
 			return true;
 		} else {
 			return false;
+			// echo $this->email->printDebugger();
+            // die;
 		}
+		// var_dump($cek);
 	}
 
 	public function register()
